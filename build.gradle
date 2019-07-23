@@ -1,16 +1,30 @@
 plugins {
 	id 'org.springframework.boot' version '2.1.6.RELEASE'
 	id 'java'
+    id 'fi.evident.beanstalk' version '0.2.2'
 }
 
 apply plugin: 'io.spring.dependency-management'
 
 group = 'lt.zerum8'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '11'
+sourceCompatibility = '8'
 
 repositories {
 	mavenCentral()
+}
+
+beanstalk {
+	s3Endpoint = "s3-us-east-2.amazonaws.com"
+	beanstalkEndpoint = "elasticbeanstalk.us-east-2.amazonaws.com"
+
+	deployments {
+		env {
+			file = tasks.jar
+			application = 'bondora-client-api'
+			environment = 'BondoraClientApi-env'
+		}
+	}
 }
 
 dependencies {
